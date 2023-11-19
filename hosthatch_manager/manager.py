@@ -22,7 +22,7 @@ class Manager:
         servers_detail = executor.map(self.sync_server, servers["servers"])
         servers["servers"] = list(servers_detail)
 
-        self.mongo_cli.prod.servers.update_one(
+        self.mongo_cli[os.getenv("MONGO_DB", "servers")].servers.update_one(
             {"provider": "hosthatch"},
             {"$set": {"servers": servers}},
             upsert=True
